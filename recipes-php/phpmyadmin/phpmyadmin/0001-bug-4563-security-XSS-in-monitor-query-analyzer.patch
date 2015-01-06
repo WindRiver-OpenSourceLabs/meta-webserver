@@ -1,0 +1,48 @@
+From 7b8962dede7631298c81e2c1cd267b81f1e08a8c Mon Sep 17 00:00:00 2001
+From: Madhura Jayaratne <madhura.cj@gmail.com>
+Date: Tue, 21 Oct 2014 08:45:09 +0530
+Subject: [PATCH] bug #4563 [security] XSS in monitor query analyzer
+
+Signed-off-by: Madhura Jayaratne <madhura.cj@gmail.com>
+---
+ ChangeLog                   |    1 +
+ js/server_status_monitor.js |    4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/ChangeLog b/ChangeLog
+index 02d0221..c0597da 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -4,6 +4,7 @@ phpMyAdmin - ChangeLog
+ - bug #4530 [security] DOM based XSS that results to a CSRF that creates a
+             ROOT account in certain conditions
+ - bug #4562 [security] XSS in debug SQL output
++- bug #4563 [security] XSS in monitor query analyzer
+ 
+ 4.2.7.1 (2014-08-17)
+ - bug #4505 [security] XSS in view operations page
+diff --git a/js/server_status_monitor.js b/js/server_status_monitor.js
+index 4432caf..97684d8 100644
+--- a/js/server_status_monitor.js
++++ b/js/server_status_monitor.js
+@@ -1855,7 +1855,7 @@ AJAX.registerOnload('server_status_monitor.js', function () {
+             if (name == 'user_host') {
+                 return value.replace(/(\[.*?\])+/g, '');
+             }
+-            return value;
++            return escapeHtml(value);
+         };
+ 
+         for (var i = 0, l = rows.length; i < l; i++) {
+@@ -2011,7 +2011,7 @@ AJAX.registerOnload('server_status_monitor.js', function () {
+             for (i = 0, l = data.explain.length; i < l; i++) {
+                 explain += '<div class="explain-' + i + '"' + (i > 0 ?  'style="display:none;"' : '') + '>';
+                 $.each(data.explain[i], function (key, value) {
+-                    value = (value === null) ? 'null' : value;
++                    value = (value === null) ? 'null' : escapeHtml(value);
+ 
+                     if (key == 'type' && value.toLowerCase() == 'all') {
+                         value = '<span class="attention">' + value + '</span>';
+-- 
+1.7.9.5
+
