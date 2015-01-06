@@ -9,7 +9,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/phpmyadmin/phpMyAdmin/${PV}/phpMyAdmin-${PV}-al
            file://0001-bug-4504-security-Self-XSS-in-query-charts.patch \
            file://0001-bug-4505-security-XSS-in-view-operations-page.patch \
            file://0001-Bug-4544-additional-fix-for-4.2.x.patch \
-           file://apache.conf"
+           file://apache.conf \
+           file://0001-bug-4530-security-DOM-based-XSS-that-results-to-a-CS.patch"
 
 SRC_URI[md5sum] = "0dcd755450dac819f33502590c88ad29"
 SRC_URI[sha256sum] = "5d101dd88a99a869bc0c684a7f687cf290abc4bf306daac73337cbde2d7743e4"
