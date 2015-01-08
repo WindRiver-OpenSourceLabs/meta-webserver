@@ -1,0 +1,59 @@
+From 2ffdbf2d7daa0b92541d8b754e2afac555d3ed21 Mon Sep 17 00:00:00 2001
+From: Madhura Jayaratne <madhura.cj@gmail.com>
+Date: Thu, 20 Nov 2014 06:40:39 +0530
+Subject: [PATCH] bug #4597 [security] XSS through pma_fontsize cookie
+
+(Upstream commit 2ffdbf2d7daa0b92541d8b754e2afac555d3ed21)
+
+Upstream-Status: Backport
+
+Signed-off-by: Madhura Jayaratne <madhura.cj@gmail.com>
+Signed-off-by: Yue Tao <yue.tao@windriver.com>
+
+---
+ ChangeLog                  |    1 +
+ libraries/Config.class.php |    2 +-
+ libraries/Theme.class.php  |    2 +-
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/ChangeLog b/ChangeLog
+index e42d976..a5122c2 100644
+--- a/ChangeLog
++++ b/ChangeLog
+@@ -8,6 +8,7 @@ phpMyAdmin - ChangeLog
+ - bug #4594 [security] Path traversal in file inclusion of GIS factory
+ - bug #4579 [security] XSS vulnerability in zoom search page
+ - bug #4578 [security] XSS vulnerability in table print view
++- bug #4597 [security] XSS through pma_fontsize cookie
+ 
+ 4.2.7.1 (2014-08-17)
+ - bug #4505 [security] XSS in view operations page
+diff --git a/libraries/Config.class.php b/libraries/Config.class.php
+index a8adc06..f63764e 100644
+--- a/libraries/Config.class.php
++++ b/libraries/Config.class.php
+@@ -1761,7 +1761,7 @@ class PMA_Config
+         // for the case when there is no config file (this is supported)
+         if (empty($current_size)) {
+             if (isset($_COOKIE['pma_fontsize'])) {
+-                $current_size = $_COOKIE['pma_fontsize'];
++                $current_size = htmlspecialchars($_COOKIE['pma_fontsize']);
+             } else {
+                 $current_size = '82%';
+             }
+diff --git a/libraries/Theme.class.php b/libraries/Theme.class.php
+index 5457647..229eef6 100644
+--- a/libraries/Theme.class.php
++++ b/libraries/Theme.class.php
+@@ -434,7 +434,7 @@ class PMA_Theme
+             return $fs;
+         }
+         if (isset($_COOKIE['pma_fontsize'])) {
+-            return $_COOKIE['pma_fontsize'];
++            return htmlspecialchars($_COOKIE['pma_fontsize']);
+         }
+         return '82%';
+     }
+-- 
+1.7.9.5
+
