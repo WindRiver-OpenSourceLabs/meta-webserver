@@ -19,6 +19,7 @@ SRC_URI = "http://www.apache.org/dist/httpd/httpd-${PV}.tar.bz2 \
            file://0001-configure-use-pkg-config-for-PCRE-detection.patch \
            file://configure-allow-to-disable-selinux-support.patch \
            file://apache2-CVE-2014-8109.patch \
+           file://apache2-CVE-2014-3583.patch \
            file://init \
            file://apache2-volatile.conf \
            file://apache2.service"
